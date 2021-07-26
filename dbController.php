@@ -113,7 +113,11 @@ class DBController
 
     function get_products($c_id)
     {
-        $query = "SELECT * FROM product WHERE category_id =" . $c_id;
+        if ($c_id == "") {
+            $query = "SELECT * FROM product";
+        } else {
+            $query = "SELECT * FROM product WHERE category_id =" . $c_id;
+        }
         $result = mysqli_query($this->conn, $query);
         while ($row = mysqli_fetch_assoc($result)) {
             $resultset[] = $row;
@@ -183,6 +187,57 @@ class DBController
         }
     }
 
+    function get_my_orders($u_id)
+    {
+        $query = "SELECT * FROM bakeryOrder WHERE user_id =" . $u_id;
+        $result = mysqli_query($this->conn, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultset[] = $row;
+        }
+        if (!empty($resultset)) {
+            $orders = array();
+            foreach ($resultset as $key => $value) {
+                $order = $this->get_order($resultset[$key]["id"]);
+                $orders . array_push($orders, $order);
+            }
+            return $orders;
+        }
+    }
+
+    function get_new_orders()
+    {
+        $query = "SELECT * FROM bakeryOrder WHERE completed = 0";
+        $result = mysqli_query($this->conn, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultset[] = $row;
+        }
+        if (!empty($resultset)) {
+            $orders = array();
+            foreach ($resultset as $key => $value) {
+                $order = $this->get_order($resultset[$key]["id"]);
+                $orders . array_push($orders, $order);
+            }
+            return $orders;
+        }
+    }
+
+    function get_completed_orders()
+    {
+        $query = "SELECT * FROM bakeryOrder WHERE completed = 1";
+        $result = mysqli_query($this->conn, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultset[] = $row;
+        }
+        if (!empty($resultset)) {
+            $orders = array();
+            foreach ($resultset as $key => $value) {
+                $order = $this->get_order($resultset[$key]["id"]);
+                $orders . array_push($orders, $order);
+            }
+            return $orders;
+        }
+    }
+
     function get_order_items($o_id)
     {
         $query = "SELECT * FROM order_item WHERE order_id =" . $o_id;
@@ -218,6 +273,13 @@ class DBController
         return $result;
     }
 
+    function update_product($p_id, $name, $cat_id, $desc, $price)
+    {
+        $sql = "UPDATE product SET name =\"" . $name . "\", category_id =\"" . $cat_id . "\", description = \"" . $desc . "\", price = \" " . $price . "\" WHERE id=" . $p_id;
+        $result = mysqli_query($this->conn, $sql);
+        return $result;
+    }
+
     function update_previous_inventory_qty($p_id)
     {
         $last_inventory = $this->get_last_inventory($p_id);
@@ -237,5 +299,12 @@ class DBController
             $resultset[] = $row;
         }
         return $resultset;
+    }
+
+    function set_order_completed($id)
+    {
+        $sql = "UPDATE bakeryOrder SET completed = 1 WHERE id=" . $id;
+        $result = mysqli_query($this->conn, $sql);
+        return $result;
     }
 }

@@ -15,9 +15,13 @@
     <div class="container-fluid bg">
         <div class="d-flex justify-content-center">
             <div class="p-2 mt-3 card shadow">
-                <h3>Login</h3>
+                <h3>Register</h3>
                 <div>
-                    <form class="form" method="post" action="loginBackend.php">
+                    <form class="form" method="post" action="registerBackend.php">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Enter name" required>
+                        </div>
                         <div class="form-group mb-3">
                             <label for="exampleInputEmail1">Email address</label>
                             <input type="email" name="email" class="form-control" placeholder="Enter email" required>
@@ -26,7 +30,7 @@
                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" name="password" class="form-control" placeholder="Password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+                        <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
                     </form>
                     <div>
                     </div>
