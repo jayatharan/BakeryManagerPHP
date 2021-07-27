@@ -137,6 +137,20 @@ class DBController
             return $resultset[0];
     }
 
+    function search_product($word)
+    {
+        if ($word == "") {
+            $query = "SELECT * FROM product";
+        } else {
+            $query = "SELECT * FROM product WHERE name LIKE '%" . $word . "%'";
+        }
+        $result = mysqli_query($this->conn, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultset[] = $row;
+        }
+        if (!empty($resultset))
+            return $resultset;
+    }
 
     function get_user($u_id)
     {

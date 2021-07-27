@@ -18,6 +18,7 @@ $db_handle = new DBController();
 //echo json_encode($db_handle->get_order(11));
 //echo json_encode($db_handle->get_order_items(11));
 //echo json_encode($db_handle->get_last_inventory(1));
+echo json_encode($db_handle->search_product("Bun"));
 
 
 //echo $db_handle->update_product_qty(1, 150);

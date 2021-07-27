@@ -45,11 +45,19 @@
                                 <div>Total : <span id="total"></span></div>
                                 <div>Total_Qty : <span id="total_qty"></span></div>
                                 <a href="cart.php" type="button" class="btn btn-outline-dark btn-sm">View Cart</a>
+                                <form class="d-flex" method="post" action="search.php">
+                                    <input class="form-control me-2 form-control-sm" type="search" placeholder="Search" aria-label="Search" name="search">
+                                    <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <?php
                     $product_array = $db_handle->get_products($_GET["category"]);
+
+                    if ($_GET["search"] != "") {
+                        $product_array = $db_handle->search_product($_GET["search"]);
+                    }
 
                     if (!empty($product_array)) {
                         foreach ($product_array as $key => $value) {
